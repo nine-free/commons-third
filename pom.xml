@@ -10,6 +10,10 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>commons-gson</module>
+        <module>commons-nginx</module>
+        <module>commons-log4j2</module>
+        <module>commons-fastjson</module>
+        <module>commons-jackson</module>
     </modules>
 
     <properties>
