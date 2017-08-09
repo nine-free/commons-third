@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- STRUTSCX LOG4J CONFIGURATION - XML style -->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- STDOUT: Outputs log information to the standard output/console -->
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - [%C{1}] %m%n"/>
+		</layout>
+	</appender>
+	<appender name="log.ERROR" class="org.apache.log4j.RollingFileAppender">
+		<!-- ${myAppfuse.root}变量仅适用于Spring的配置 -->
+		<param name="File" value="logs/error.log"/>
+		<param name="Append" value="true"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="MaxFileSize" value="2MB" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - [%C{1}] %m%n"/>
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+		<param name="LevelMin" value="WARN" />
+		<param name="LevelMax" value="ERROR" />
+		</filter>
+	</appender>
+	<appender name="log.INFO" class="org.apache.log4j.RollingFileAppender">
+		<!-- ${myAppfuse.root}变量仅适用于Spring的配置 -->
+		<param name="File" value="logs/info.log"/>
+		<param name="Append" value="true"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="MaxFileSize" value="2MB" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - [%C{1}] %m%n"/>
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+		<param name="LevelMin" value="INFO" />
+		<param name="LevelMax" value="INFO" />
+		</filter>
+	</appender>
+	<appender name="log.DEBUG" class="org.apache.log4j.RollingFileAppender">
+		<!-- ${myAppfuse.root}变量仅适用于Spring的配置 -->
+		<param name="File" value="logs/debug.log"/>
+		<param name="Append" value="true"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="MaxFileSize" value="2MB" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - [%C{1}] %m%n"/>
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+		<param name="LevelMin" value="DEBUG" />
+		<param name="LevelMax" value="DEBUG" />
+		</filter>
+	</appender>
+	<appender name="log.aInterfaceError" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="logs/aInterfaceError.log"/>
+		<param name="Append" value="true"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="MaxFileSize" value="2MB" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - [%C{1}] %m%n"/>
+		</layout>
+	</appender>
+	<appender name="log.timer" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="logs/timer.log"/>
+		<param name="Append" value="true"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="MaxFileSize" value="2MB" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p - [%C{1}] %m%n"/>
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+		<param name="LevelMin" value="INFO" />
+		<param name="LevelMax" value="INFO" />
+		</filter>
+	</appender>
+	
+	<logger name="com.channelsoft.app.privilege.action.OuterInterfaceAction">
+		<level value="ERROR"/>
+		<appender-ref ref="log.aInterfaceError"/>
+		<appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="com.channelsoft">
+		<level value="DEBUG"/>
+		<appender-ref ref="STDOUT"/>
+	</logger>
+	<logger name="com.opensymphony.xwork2.interceptor.TimerInterceptor">
+		<level value="ERROR"/>
+		<appender-ref ref="log.timer"/>
+		<appender-ref ref="STDOUT"/>
+	</logger>
+
+	<root>
+		<priority value="ERROR"/>
+		<appender-ref ref="log.ERROR" />  
+		<appender-ref ref="log.INFO" />  
+		<appender-ref ref="log.DEBUG" />
+	</root>
+</log4j:configuration>
