@@ -14,6 +14,11 @@
         <module>commons-log4j2</module>
         <module>commons-fastjson</module>
         <module>commons-jackson</module>
+        <module>commons-log4j</module>
+        <module>commons-logback</module>
+        <module>commons-git</module>
+        <module>commons-maven</module>
+        <module>commons-gradle</module>
     </modules>
 
     <properties>
