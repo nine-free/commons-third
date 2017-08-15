@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 1800s 检测是否改变,自动重新加载配置 -->
+<configuration debug="off" status="info" monitorInterval="1800">
+
+    <!-- 定义一些常量-->
+    <properties>
+        <property name="LOG_HOME">logs/</property>
+        <property name="FILE_NAME">mylog</property>
+        <property name="important">important</property>
+    </properties>
+
+    <appenders>
+        <!-- 控制台输出 -->
+        <console name="CONSOLE" target="SYSTEM_OUT">
+            <patternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd_HH:mm:ss}[%-5level]%logger[%L]-%message%n"/>
+        </console>
+
+        <!-- 输出到文件  每天一个文件-->
+        <rollingFile name="ROLLINGFILE_DEBUG"
+                     fileName="${LOG_HOME}/${FILE_NAME}.debug.log"
+                     filePattern="${LOG_HOME}/${FILE_NAME}.debug.log.%date{yyyyMMdd}">
+            <filters>
+                <thresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <thresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <patternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd_HH:mm:ss}[%-5level]%logger[%L]-%message%n"/>
+            <policies>
+                <timeBasedTriggeringPolicy/>
+            </policies>
+        </rollingFile>
+
+        <rollingFile name="ROLLINGFILE_INFO" fileName="${LOG_HOME}/${FILE_NAME}.info.log"
+                     filePattern="${LOG_HOME}/${FILE_NAME}.info.log.%date{yyyyMMdd}">
+            <filters>
+                <thresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <thresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <patternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd_HH:mm:ss}[%-5level]%logger[%L]-%message%n"/>
+            <policies>
+                <timeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </policies>
+            <DefaultRolloverStrategy max="20"/>
+        </rollingFile>
+
+        <rollingFile name="ROLLINGFILE_ERROR"
+                     fileName="${LOG_HOME}/${FILE_NAME}.error.log"
+                     filePattern="${LOG_HOME}/${FILE_NAME}.error.log.%date{yyyyMMdd}">
+            <filters>
+                <thresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <patternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd_HH:mm:ss}[%-5level]%logger[%L]-%message%n"/>
+            <policies>
+                <timeBasedTriggeringPolicy/>
+            </policies>
+        </rollingFile>
+
+        <!-- 异步输出 建议非总要日志可以选择异步输出, 重要日志同步-->
+        <async name="ASYNC_DEBUG">
+            <appenderRef ref="ROLLINGFILE_DEBUG"/>
+        </async>
+
+        <async name="ASYNC_INFO">
+            <appenderRef ref="ROLLINGFILE_INFO"/>
+        </async>
+
+        <async name="ASYNC_ERROR">
+            <appenderRef ref="ROLLINGFILE_ERROR"/>
+        </async>
+
+    </appenders>
+
+    <!--  定义logger logger引用的apperder才会生效 -->
+    <loggers>
+        <logger name="com.soft1010" level="info" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC_INFO"/>
+            <appender-ref ref="ASYNC_ERROR"/>
+        </logger>
+        <root level="error">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ASYNC_ERROR"/>
+        </root>
+    </loggers>
+</configuration>
